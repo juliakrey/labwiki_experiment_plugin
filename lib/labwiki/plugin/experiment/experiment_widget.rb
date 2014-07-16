@@ -53,6 +53,11 @@ module LabWiki::Plugin::Experiment
       @experiment.dump
     end
 
+   def on_analyse(params, req)
+      debug "ANALYSE State as requested for Experiment #{@experiment.name}"
+      @experiment.dump
+    end
+
     def new?
       @experiment ? (@experiment.state == :new) : false
     end
