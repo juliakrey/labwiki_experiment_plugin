@@ -162,18 +162,22 @@ print "\nCLIENT INIT\n"
  uri = URI.parse('http://221.199.209.249:8787/rpc/client_init/')
     http = Net::HTTP.new(uri.host, uri.port)
 
-    params = "{\"method\":\"client_init\", \"params\":[], \"version\":0}"
-
+ params = "{\"method\":\"client_init\", \"params\":[], \"version\":0}"
+ 
    resp, data = http.post(uri.path, params, headersInit)
 
    response = ''
    resp.each {|key, val| response << key + ' = ' + val + ' '}
-   clientId = resp['clientId']
+  clientId = resp['clientId']
    version = resp['version']
       print "Body: #{resp.body} \n"
    print "data: #{data}"
    print " \nCLIENTID: #{clientId} \n VERSION: #{version} \n"
    print "RESPONSE INIT:\n  #{response}\n"
+
+
+   
+
 
 
 #restart

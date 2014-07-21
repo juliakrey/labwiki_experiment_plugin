@@ -26,7 +26,7 @@ labwiki:
     experiment:
       plugin_dir: labwiki_experiment_plugin
       job_service:
-        host: localhost
+        host: 221.199.209.244
         port: 8002
 
       # artifact_dir: git:default:/experiments  # Where to store experiment related artifacts

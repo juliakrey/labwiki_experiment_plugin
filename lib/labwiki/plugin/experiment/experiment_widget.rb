@@ -55,7 +55,7 @@ module LabWiki::Plugin::Experiment
 
    def on_analyse(params, req)
       debug "ANALYSE State as requested for Experiment #{@experiment.name}"
-      @experiment.dump
+      #@experiment.dump
     end
 
     def new?
