@@ -16,60 +16,49 @@ map "/plugin/experiment/create_iwidget" do
   run handler
 end
 
+## gets the public key of the RStudio Server
 map "/plugin/experiment/getPublicKey" do
   handler = lambda do |env|
-    
     require 'net/http'
     publicKey = Net::HTTP.get(URI.parse('http://221.199.209.249:8787/auth-public-key/'))
-	print publicKey['set-cookie']
-
     [200, {}, "#{publicKey}"]
-
   end
   run handler
 end
 
+## gets the cookie of the labwiki session
 map "/plugin/experiment/getCookie" do
   handler = lambda do |env|
-    
     cookie = env['rack.request.cookie_string']
-
     [200, {}, cookie]
-
   end
   run handler
 end
 
+## logs in the user and gets the cookie from the server ('set-cookie')
 map "/plugin/experiment/getSetCookie" do
   handler = lambda do |env|
-    
     req = ::Rack::Request.new(env)
     pck = env['rack.input'].gets
     encr = "#{pck}"[4..-1]
     lcookie = env['rack.request.cookie_string']
-	
     require 'uri'
     require 'net/http'
     uri = URI.parse('http://221.199.209.249:8787/auth-do-sign-in/')
     http = Net::HTTP.new(uri.host, uri.port)
-
     params = "persist=1&appUri=&clientPath=%2Fauth-sign-in&v=#{encr}"
-
     headers = {
       'Cookie' => lcookie,
       'Content-Type' => 'application/x-www-form-urlencoded'
    }
-
    resp, data = http.post(uri.path, params, headers)
-
    setCookie = "#{lcookie}; #{resp['set-cookie']}"
-
     [200, {}, setCookie]
-
   end
   run handler
 end
 
+## logs in the user and initializes the client and restarts the session (not working)
 map "/plugin/experiment/loginR" do
   handler = lambda do |env|
     req = ::Rack::Request.new(env)
@@ -91,60 +80,19 @@ map "/plugin/experiment/loginR" do
 
    resp, data = http.post(uri.path, params, headers)
 
-   print "\n\nlogin RESPONSE: \n\n"
-
-   resp.each {|key, val| print key + ' = ' + val + ' '}
-
-print "\n\n"
-
-print "login Body: #{resp.body} \n"
-print "login data: #{data}"
-
-body = resp.body
-
 requestResponse = ''
 
 if(body.include? 'Incorrect')
 	requestResponse = 'Incorrect Username or Password!'
 else
-
-
+#specify cookie
    setCookie = resp['set-cookie']
 
    index = setCookie.index(';')
 
    cookie = setCookie[0..index-1]
 
-print "\n\n"
-
   gcookie = "#{lcookie}; #{cookie}"
-   #gcookie = lcookie
-  
-    print "cookie:\n#{gcookie}"
-
-print "\n\n"
-
-# print "nach login\n"
-
-    headers2 = {
-      'Cookie' => gcookie,
-      'Connection' => 'keep-alive'
-    }
-
-#uri = URI.parse('http://221.199.209.249:8787/')
- #   http = Net::HTTP.new(uri.host, uri.port)
-
-  #  params = ""
-
-#   resp, data = http.post(uri.path, params, headers2)
-
- #  response = ''
-  # resp.each {|key, val| response << key + ' = ' + val + ' '}
-   #   print "//Body: #{resp.body} \n"
-  # print "//data: #{data}"
-
-print"\n\n\n"
-
 
 headersInit = {
       'Cookie' => gcookie,
@@ -156,8 +104,6 @@ headersInit = {
     }
 
 #client_init
-
-print "\nCLIENT INIT\n"
 
  uri = URI.parse('http://221.199.209.249:8787/rpc/client_init/')
     http = Net::HTTP.new(uri.host, uri.port)
@@ -178,7 +124,8 @@ print "\nCLIENT INIT\n"
 
    
 
-
+## following requests are not working because initializing the client (getting the client id) ist not working..
+## not sure wether only these requests are necessary to restart the session..
 
 #restart
 =begin
