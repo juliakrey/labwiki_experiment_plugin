@@ -2,7 +2,7 @@
 The goal is to login the user into RStudio and loading the data of the experiment so that the user has immediate access to it.
 In order to do that, the session has to be restarted whereby a script is executed that loads the data.
 
-To achieve this several steps are necessary:
+To achieve this, several steps are necessary:
   1. Getting the public key from the server
      * works - currently implemented in config.ru and called by experiment_monitor.js
   2. Logging in the user and getting the 'Set-Cookie' attribute 
@@ -19,3 +19,8 @@ To achieve this several steps are necessary:
      * Putting the data of the experiment in that <file> (via 'dump')
 
 In addition a configuration file is needed that specifies username, password, server-url of RStudio,.. and methods to transfer these information to javascript.
+
+Files that were modified for the plugin are:
+    * config.ru
+    * resource/js/experiment_monitor.js
+    * experiment_widget.rb
