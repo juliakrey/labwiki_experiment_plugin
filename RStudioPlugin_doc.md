@@ -20,7 +20,4 @@ To achieve this, several steps are necessary:
 
 In addition a configuration file is needed that specifies username, password, server-url of RStudio,.. and methods to transfer these information to javascript.
 
-Files that were modified for the plugin are:
-    * config.ru
-    * resource/js/experiment_monitor.js
-    * experiment_widget.rb
+Files that were modified for the plugin are: config.ru,resource/js/experiment_monitor.js, experiment_widget.rb
