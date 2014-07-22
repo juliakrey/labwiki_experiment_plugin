@@ -10,10 +10,10 @@ To achieve this, several steps are necessary:
      * The logging in is implemented in config.ru and is called by experiment_monitor.js
   3. Initializing the user (client_init) to get a valid client-id (not working)
      * When doing the request in javascript with ajax, it is not working at all, the 'POST' becames 'OPTIONS' according to Chrome Developer Tools
-         * Only the case when the Content-Type in the header is set, otherwise it's a 'POST' but then the data (json) is apparently not interpreted correctly
+         * But only the case when the Content-Type in the header is set; otherwise it's a 'POST' but then the data (json) is apparently not interpreted correctly
      * When doing the request in config.ru the post is working but the reply is 'Invalid client-id' although this is the post to get the client-id in the first place...
          * The cookie should be correct and transferred correctly (not an encoding problem) because when the cookie is altered slightly the answer is 'User Unauthorized'
-  4. Different Posts to restart the session which all require the client-id..
+  4. Different Posts to restart the session which all require the client-id (implemented in config.ru, maybe more requests are necessary)
   5. To load the data by the restart of the session:
      * Putting a load <file> command in the 'start - script'
      * Putting the data of the experiment in that <file> (via 'dump')
